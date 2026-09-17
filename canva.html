@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Calculator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, Tahoma, sans-serif;
+            background: #f4f6f8;
+            color: #111;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            height: 45px;
+            padding: 0 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 17px;
+        }
+
+        input {
+            width: 180px;
+        }
+
+        select {
+            width: 120px;
+        }
+
+        button {
+            height: 45px;
+            border: none;
+            border-radius: 8px;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .calculate-btn {
+            background: #111;
+            color: white;
+        }
+
+        .print-btn {
+            background: #444;
+            color: white;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 350px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .diagram-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .diagram {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .diagram img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .measurement {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            padding: 0;
+            font-size: clamp(10px, 1.25vw, 17px);
+            font-weight: bold;
+            white-space: nowrap;
+            color: #000;
+            text-align: center;
+            direction: ltr;
+            unicode-bidi: isolate;
+            text-shadow: 0 0 3px #fff, 0 0 3px #fff;
+        }
+
+        /* مواضع الأبعاد */
+        .top-left {
+            left: 17.5%;
+            top: 5%;
+        }
+
+        .top-right {
+            left: 42.5%;
+            top: 5%;
+        }
+
+        .left-a {
+            left: 2.2%;
+            top: 23%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        .right-a {
+            left: 57.8%;
+            top: 23%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        /* رفع الموضع ليكون ملاصقاً تماماً لقاعدة حرف T */
+        .bottom-a {
+            left: 30.2%;
+            top: 88%;
+        }
+
+        .left-diagonal {
+            left: 12.8%;
+            top: 24.5%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .middle-diagonal {
+            left: 25.8%;
+            top: 20.2%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .right-diagonal {
+            left: 42.5%;
+            top: 18.5%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .long-diagonal {
+            left: 30.5%;
+            top: 39.5%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .long-vertical {
+            left: 18.5%;
+            top: 61.5%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        .right-small-horizontal {
+            left: 46.8%;
+            top: 38%;
+        }
+
+        .right-small-vertical {
+            left: 46.8%;
+            top: 63.5%;
+        }
+
+        .results {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .results h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .result-item {
+            border-bottom: 1px solid #eee;
+            padding: 12px 0;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .formula {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 19px;
+            font-weight: bold;
+            direction: ltr;
+            text-align: right;
+        }
+
+        .empty-message {
+            color: #777;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .results {
+                order: 2;
+            }
+
+            .diagram-card {
+                order: 1;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 5mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+            }
+
+            .container {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .controls,
+            .results,
+            h1 {
+                display: none !important;
+            }
+
+            .content {
+                display: block !important;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .diagram-card {
+                display: block !important;
+                width: 100%;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: transparent !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+
+            .diagram {
+                position: relative;
+                width: 100%;
+                max-width: none;
+                margin: 0 auto;
+            }
+
+            .diagram img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+
+            .measurement {
+                position: absolute;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                color: #000 !important;
+                font-family: Arial, Tahoma, sans-serif;
+                font-weight: bold;
+                padding: 0 !important;
+                white-space: nowrap;
+                z-index: 10;
+                direction: ltr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Geometry Calculator</h1>
+
+    <div class="controls">
+        <div class="input-row">
+            <div class="input-group">
+                <label for="aValue">قيمة a</label>
+                <input type="number" id="aValue" value="4" min="0" step="any" placeholder="مثال: 4">
+            </div>
+
+            <div class="input-group">
+                <label for="unit">الوحدة</label>
+                <select id="unit">
+                    <option value="cm">cm</option>
+                    <option value="m">m</option>
+                    <option value="mm">mm</option>
+                </select>
+            </div>
+
+            <button class="calculate-btn" onclick="calculate()">احسب</button>
+            <button class="print-btn" onclick="printResult()">🖨 طباعة النتيجة</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="diagram-card">
+            <div class="diagram">
+                <img src="image.png" alt="Geometry Diagram">
+
+                <div class="measurement top-left" id="topLeft"></div>
+                <div class="measurement top-right" id="topRight"></div>
+                <div class="measurement left-a" id="leftA"></div>
+                <div class="measurement right-a" id="rightA"></div>
+                <div class="measurement bottom-a" id="bottomA"></div>
+                <div class="measurement left-diagonal" id="leftDiagonal"></div>
+                <div class="measurement middle-diagonal" id="middleDiagonal"></div>
+                <div class="measurement right-diagonal" id="rightDiagonal"></div>
+                <div class="measurement long-diagonal" id="longDiagonal"></div>
+                <div class="measurement long-vertical" id="longVertical"></div>
+                <div class="measurement right-small-horizontal" id="smallHorizontal"></div>
+                <div class="measurement right-small-vertical" id="smallVertical"></div>
+            </div>
+        </div>
+
+        <div class="results">
+            <h2>النتائج</h2>
+            <div id="resultsContainer">
+                <div class="empty-message">أدخل قيمة a واضغط احسب</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function formatNumber(number) {
+        if (!Number.isFinite(number)) {
+            return "-";
+        }
+        return Number(number.toFixed(4)).toString();
+    }
+
+    function formatMeasurement(number, unit) {
+        return `${formatNumber(number)} ${unit}`;
+    }
+
+    function calculate() {
+        const a = parseFloat(document.getElementById("aValue").value);
+        const unit = document.getElementById("unit").value;
+
+        if (isNaN(a) || a <= 0) {
+            alert("من فضلك أدخل قيمة صحيحة لـ a");
+            return;
+        }
+
+        const sqrt2 = Math.sqrt(2);
+        const values = {
+            a: a,
+            sqrt2a: sqrt2 * a,
+            twoSqrt2a: 2 * sqrt2 * a,
+            sqrt2Minus1: (sqrt2 - 1) * a,
+            twoSqrt2Minus1: 2 * (sqrt2 - 1) * a
+        };
+
+        document.getElementById("topLeft").textContent = formatMeasurement(values.sqrt2a, unit);
+        document.getElementById("topRight").textContent = formatMeasurement(values.sqrt2a, unit);
+        document.getElementById("leftA").textContent = formatMeasurement(values.a, unit);
+        document.getElementById("rightA").textContent = formatMeasurement(values.a, unit);
+        document.getElementById("bottomA").textContent = formatMeasurement(values.a, unit);
+        document.getElementById("leftDiagonal").textContent = formatMeasurement(values.sqrt2a, unit);
+        document.getElementById("middleDiagonal").textContent = formatMeasurement(values.a, unit);
+        document.getElementById("rightDiagonal").textContent = formatMeasurement(values.sqrt2a, unit);
+        document.getElementById("longDiagonal").textContent = formatMeasurement(values.twoSqrt2a, unit);
+        document.getElementById("longVertical").textContent = formatMeasurement(values.twoSqrt2a, unit);
+        
+        document.getElementById("smallHorizontal").textContent = formatMeasurement(values.sqrt2Minus1, unit);
+        document.getElementById("smallVertical").textContent = formatMeasurement(values.twoSqrt2Minus1, unit);
+
+        const resultsContainer = document.getElementById("resultsContainer");
+        resultsContainer.innerHTML = `
+            <div class="result-item">
+                <div class="formula">a</div>
+                <div class="result-value">${formatMeasurement(values.a, unit)}</div>
+            </div>
+            <div class="result-item">
+                <div class="formula">√2a</div>
+                <div class="result-value">${formatMeasurement(values.sqrt2a, unit)}</div>
+            </div>
+            <div class="result-item">
+                <div class="formula">2√2a</div>
+                <div class="result-value">${formatMeasurement(values.twoSqrt2a, unit)}</div>
+            </div>
+            <div class="result-item">
+                <div class="formula">(√2 − 1)a</div>
+                <div class="result-value">${formatMeasurement(values.sqrt2Minus1, unit)}</div>
+            </div>
+            <div class="result-item">
+                <div class="formula">2(√2 − 1)a</div>
+                <div class="result-value">${formatMeasurement(values.twoSqrt2Minus1, unit)}</div>
+            </div>
+        `;
+    }
+
+    function printResult() {
+        const a = parseFloat(document.getElementById("aValue").value);
+        if (isNaN(a) || a <= 0) {
+            alert("أدخل قيمة a أولاً");
+            return;
+        }
+        window.print();
+    }
+
+    calculate();
+</script>
+
+</body>
+</html>
