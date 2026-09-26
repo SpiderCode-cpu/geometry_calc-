@@ -63,11 +63,11 @@
         }
 
         input {
-            width: 180px;
+            width: 150px;
         }
 
         select {
-            width: 120px;
+            width: 150px;
         }
 
         button {
@@ -78,16 +78,25 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s ease;
         }
 
         .calculate-btn {
             background: #111;
             color: white;
         }
+        
+        .calculate-btn:hover {
+            background: #333;
+        }
 
         .print-btn {
             background: #444;
             color: white;
+        }
+
+        .print-btn:hover {
+            background: #666;
         }
 
         .content {
@@ -100,106 +109,88 @@
         .diagram-card {
             background: white;
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
         }
 
         .diagram {
             position: relative;
-            width: 100%;
-            max-width: 1200px;
-            margin: auto;
+            width: 614px;
+            max-width: 100%;
+            margin: 0 auto;
         }
 
         .diagram img {
             display: block;
             width: 100%;
+            max-width: 614px;
             height: auto;
+            margin: 0 auto;
+        }
+
+        /* الطبقة الشفافة لرسم الخطوط */
+        .lines-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
         }
 
         .measurement {
             position: absolute;
-            transform: translate(-50%, -50%);
-            background: transparent;
-            padding: 0;
-            font-size: clamp(10px, 1.25vw, 17px);
-            font-weight: bold;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            font-size: clamp(10px, 1.6vw, 14px);
+            font-weight: 700;
             white-space: nowrap;
             color: #000;
             text-align: center;
             direction: ltr;
             unicode-bidi: isolate;
-            text-shadow: 0 0 3px #fff, 0 0 3px #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            z-index: 5;
+            transition: all 0.2s ease;
         }
 
-        /* مواضع الأبعاد */
-        .top-left {
-            left: 17.5%;
-            top: 5%;
-        }
+        /* ----- مواضع قياسات T-Shape ----- */
+        .t-shape .top-left { left: 26%; top: 4.5%; transform: translate(-50%, -50%); }
+        .t-shape .top-right { left: 70%; top: 4.5%; transform: translate(-50%, -50%); }
+        .t-shape .left-a { left: -0.5%; top: 21.5%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .t-shape .right-a { left: 89.0%; top: 19.5%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .t-shape .bottom-a { left: 46.5%; top: 94%; transform: translate(-50%, -50%); }
+        .t-shape .left-diagonal { left: 16.5%; top: 18.5%; transform: translate(-50%, -50%) rotate(-45deg); }
+        .t-shape .middle-diagonal { left: 43.5%; top: 23.5%; transform: translate(-50%, -50%) rotate(45deg); }
+        .t-shape .right-diagonal { left: 61.5%; top: 21.5%; transform: translate(-50%, -50%) rotate(-45deg); }
+        .t-shape .red-line-left { left: 33%; top: 17.5%; transform: translate(-48%, -40%) rotate(-45deg); }
+        .t-shape .red-line-right { left: 73.5%; top: 17.5%; transform: translate(-73%, -74%) rotate(-45deg); }
+        .t-shape .long-diagonal { left: 50%; top: 44.9%; transform: translate(-50%, -50%) rotate(-45deg); }
+        .t-shape .long-vertical { left: 27.5%; top: 66.0%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .t-shape .right-small-horizontal { left: 78.5%; top: 45%; transform: translate(-50%, -50%); }
+        .t-shape .right-small-vertical { left: 69.5%; top: 68.8%; transform: translate(-50%, -50%); }
 
-        .top-right {
-            left: 42.5%;
-            top: 5%;
-        }
-
-        .left-a {
-            left: 2.2%;
-            top: 23%;
-            transform: translate(-50%, -50%) rotate(-90deg);
-        }
-
-        .right-a {
-            left: 57.8%;
-            top: 23%;
-            transform: translate(-50%, -50%) rotate(-90deg);
-        }
-
-        /* رفع الموضع ليكون ملاصقاً تماماً لقاعدة حرف T */
-        .bottom-a {
-            left: 30.2%;
-            top: 88%;
-        }
-
-        .left-diagonal {
-            left: 12.8%;
-            top: 24.5%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-        }
-
-        .middle-diagonal {
-            left: 25.8%;
-            top: 20.2%;
-            transform: translate(-50%, -50%) rotate(45deg);
-        }
-
-        .right-diagonal {
-            left: 42.5%;
-            top: 18.5%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-        }
-
-        .long-diagonal {
-            left: 30.5%;
-            top: 39.5%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-        }
-
-        .long-vertical {
-            left: 18.5%;
-            top: 61.5%;
-            transform: translate(-50%, -50%) rotate(-90deg);
-        }
-
-        .right-small-horizontal {
-            left: 46.8%;
-            top: 38%;
-        }
-
-        .right-small-vertical {
-            left: 46.8%;
-            top: 63.5%;
-        }
+        /* ----- مواضع قياسات 1-Shape ----- */
+        .one-shape .shape1-top-a { left: 50%;
+    top: 12.5%;
+    transform: translate(-50%, -50%); }
+        .one-shape .shape1-bottom-a { left: 50%; top: 90.5%; transform: translate(-50%, -50%); }
+        .one-shape .shape1-top-right-a { left: 71%; top: 19.5%; transform: translate(-50%, -50%); }
+        .one-shape .shape1-middle-right-a { left: 55.5%; top: 35%; transform: translate(-50%, -50%); }
+        .one-shape .shape1-left-sqrt2a { left: 31%; top: 23.5%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .one-shape .shape1-top-diag-sqrt2a { left: 51%;
+    top: 20.5%;
+    transform: translate(-50%, -50%) rotate(45deg); }
+        .one-shape .shape1-left-minus1a { left: 28%; top: 35.5%; transform: translate(-50%, -50%); }
+        .one-shape .shape1-middle-left-sqrt2a { left: 31%; top: 46%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .one-shape .shape1-bottom-diag-sqrt2a { left: 49%; top: 58.5%; transform: translate(-50%, -50%) rotate(45deg); }
+        .one-shape .shape1-right-2sqrt2a { left: 69%; top: 49.5%; transform: translate(-50%, -50%) rotate(90deg); }
+        .one-shape .shape1-left-2sqrt2a { left: 31%; top: 76.5%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .one-shape .shape1-right-2sqrt2minus1a { left: 69%; top: 80.5%; transform: translate(-50%, -50%) rotate(90deg); }
 
         .results {
             background: white;
@@ -216,6 +207,9 @@
         .result-item {
             border-bottom: 1px solid #eee;
             padding: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .result-item:last-child {
@@ -224,15 +218,16 @@
 
         .formula {
             color: #555;
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            direction: ltr;
         }
 
         .result-value {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: bold;
             direction: ltr;
-            text-align: right;
+            color: #111;
         }
 
         .empty-message {
@@ -306,26 +301,28 @@
 
             .diagram {
                 position: relative;
-                width: 100%;
-                max-width: none;
+                width: 614px;
+                max-width: 90vw;
                 margin: 0 auto;
             }
 
             .diagram img {
                 display: block;
                 width: 100%;
+                max-width: 614px;
                 height: auto;
+                margin: 0 auto;
             }
 
             .measurement {
                 position: absolute;
-                background: transparent !important;
-                border: none !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                border: 1px solid #000 !important;
                 box-shadow: none !important;
                 color: #000 !important;
                 font-family: Arial, Tahoma, sans-serif;
                 font-weight: bold;
-                padding: 0 !important;
+                padding: 1px 5px !important;
                 white-space: nowrap;
                 z-index: 10;
                 direction: ltr;
@@ -342,6 +339,14 @@
 
     <div class="controls">
         <div class="input-row">
+            <div class="input-group">
+                <label for="shapeType">اختيار الشكل</label>
+                <select id="shapeType" onchange="switchShape()">
+                    <option value="T_shape">T Shape</option>
+                    <option value="1_shape">1 Shape</option>
+                </select>
+            </div>
+
             <div class="input-group">
                 <label for="aValue">قيمة a</label>
                 <input type="number" id="aValue" value="4" min="0" step="any" placeholder="مثال: 4">
@@ -363,21 +368,44 @@
 
     <div class="content">
         <div class="diagram-card">
-            <div class="diagram">
-                <img src="image.png" alt="Geometry Diagram">
+            <div class="diagram t-shape" id="diagramContainer">
+                <img id="diagramImg" src="T_Shape.jpeg" alt="Geometry Diagram" onerror="this.onerror=null; this.src='https://placehold.co/614x614/ffffff/000000?text=Diagram+Image';">
 
-                <div class="measurement top-left" id="topLeft"></div>
-                <div class="measurement top-right" id="topRight"></div>
-                <div class="measurement left-a" id="leftA"></div>
-                <div class="measurement right-a" id="rightA"></div>
-                <div class="measurement bottom-a" id="bottomA"></div>
-                <div class="measurement left-diagonal" id="leftDiagonal"></div>
-                <div class="measurement middle-diagonal" id="middleDiagonal"></div>
-                <div class="measurement right-diagonal" id="rightDiagonal"></div>
-                <div class="measurement long-diagonal" id="longDiagonal"></div>
-                <div class="measurement long-vertical" id="longVertical"></div>
-                <div class="measurement right-small-horizontal" id="smallHorizontal"></div>
-                <div class="measurement right-small-vertical" id="smallVertical"></div>
+                <!-- خطوط تراكب خاصة بـ T-Shape -->
+                <svg id="svgOverlay" class="lines-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <line x1="25.5" y1="28.5" x2="48" y2="7" stroke="#111" stroke-width="0.6" stroke-dasharray="1.5,1.5" />
+                    <line x1="61" y1="28.5" x2="83.5" y2="7" stroke="#111" stroke-width="0.6" stroke-dasharray="1.5,1.5" />
+                </svg>
+
+                <!-- قياسات T-Shape -->
+                <div class="measurement top-left t-elem" id="topLeft"></div>
+                <div class="measurement top-right t-elem" id="topRight"></div>
+                <div class="measurement left-a t-elem" id="leftA"></div>
+                <div class="measurement right-a t-elem" id="rightA"></div>
+                <div class="measurement bottom-a t-elem" id="bottomA"></div>
+                <div class="measurement left-diagonal t-elem" id="leftDiagonal"></div>
+                <div class="measurement middle-diagonal t-elem" id="middleDiagonal"></div>
+                <div class="measurement right-diagonal t-elem" id="rightDiagonal"></div>
+                <div class="measurement red-line-left t-elem" id="redLineLeft"></div>
+                <div class="measurement red-line-right t-elem" id="redLineRight"></div>
+                <div class="measurement long-diagonal t-elem" id="longDiagonal"></div>
+                <div class="measurement long-vertical t-elem" id="longVertical"></div>
+                <div class="measurement right-small-horizontal t-elem" id="smallHorizontal"></div>
+                <div class="measurement right-small-vertical t-elem" id="smallVertical"></div>
+
+                <!-- قياسات 1-Shape -->
+                <div class="measurement shape1-top-a one-elem" id="s1TopA" style="display:none;"></div>
+                <div class="measurement shape1-bottom-a one-elem" id="s1BottomA" style="display:none;"></div>
+                <div class="measurement shape1-top-right-a one-elem" id="s1TopRightA" style="display:none;"></div>
+                <div class="measurement shape1-middle-right-a one-elem" id="s1MiddleRightA" style="display:none;"></div>
+                <div class="measurement shape1-left-sqrt2a one-elem" id="s1LeftSqrt2a" style="display:none;"></div>
+                <div class="measurement shape1-top-diag-sqrt2a one-elem" id="s1TopDiagSqrt2a" style="display:none;"></div>
+                <div class="measurement shape1-left-minus1a one-elem" id="s1LeftMinus1a" style="display:none;"></div>
+                <div class="measurement shape1-middle-left-sqrt2a one-elem" id="s1MiddleLeftSqrt2a" style="display:none;"></div>
+                <div class="measurement shape1-bottom-diag-sqrt2a one-elem" id="s1BottomDiagSqrt2a" style="display:none;"></div>
+                <div class="measurement shape1-right-2sqrt2a one-elem" id="s1Right2Sqrt2a" style="display:none;"></div>
+                <div class="measurement shape1-left-2sqrt2a one-elem" id="s1Left2Sqrt2a" style="display:none;"></div>
+                <div class="measurement shape1-right-2sqrt2minus1a one-elem" id="s1Right2Sqrt2minus1a" style="display:none;"></div>
             </div>
         </div>
 
@@ -403,12 +431,42 @@
         return `${formatNumber(number)} ${unit}`;
     }
 
+    function switchShape() {
+        const shape = document.getElementById("shapeType").value;
+        const diagramContainer = document.getElementById("diagramContainer");
+        const img = document.getElementById("diagramImg");
+        const svg = document.getElementById("svgOverlay");
+        
+        const tElems = document.querySelectorAll(".t-elem");
+        const oneElems = document.querySelectorAll(".one-elem");
+
+        if (shape === "T_shape") {
+            img.src = "T_Shape.jpeg";
+            diagramContainer.className = "diagram t-shape";
+            svg.style.display = "block";
+
+            tElems.forEach(el => el.style.display = "block");
+            oneElems.forEach(el => el.style.display = "none");
+        } else {
+            img.src = "1_shape.jpeg";
+            diagramContainer.className = "diagram one-shape";
+            svg.style.display = "none";
+
+            tElems.forEach(el => el.style.display = "none");
+            oneElems.forEach(el => el.style.display = "block");
+        }
+
+        calculate();
+    }
+
     function calculate() {
         const a = parseFloat(document.getElementById("aValue").value);
         const unit = document.getElementById("unit").value;
+        const shape = document.getElementById("shapeType").value;
 
         if (isNaN(a) || a <= 0) {
-            alert("من فضلك أدخل قيمة صحيحة لـ a");
+            const resultsContainer = document.getElementById("resultsContainer");
+            resultsContainer.innerHTML = `<div class="empty-message" style="color: red;">من فضلك أدخل قيمة صحيحة لـ a</div>`;
             return;
         }
 
@@ -418,23 +476,38 @@
             sqrt2a: sqrt2 * a,
             twoSqrt2a: 2 * sqrt2 * a,
             sqrt2Minus1: (sqrt2 - 1) * a,
-            sqrt2Minus2: (sqrt2 - 1) * a,
-            twoSqrt2Minus1:  (2*sqrt2 - 1) * a
+            twoSqrt2Minus1: (2 * sqrt2 - 1) * a
         };
 
-        document.getElementById("topLeft").textContent = formatMeasurement(values.sqrt2a, unit);
-        document.getElementById("topRight").textContent = formatMeasurement(values.sqrt2a, unit);
-        document.getElementById("leftA").textContent = formatMeasurement(values.a, unit);
-        document.getElementById("rightA").textContent = formatMeasurement(values.a, unit);
-        document.getElementById("bottomA").textContent = formatMeasurement(values.a, unit);
-        document.getElementById("leftDiagonal").textContent = formatMeasurement(values.sqrt2a, unit);
-        document.getElementById("middleDiagonal").textContent = formatMeasurement(values.a, unit);
-        document.getElementById("rightDiagonal").textContent = formatMeasurement(values.sqrt2a, unit);
-        document.getElementById("longDiagonal").textContent = formatMeasurement(values.twoSqrt2a, unit);
-        document.getElementById("longVertical").textContent = formatMeasurement(values.twoSqrt2a, unit);
-        
-        document.getElementById("smallHorizontal").textContent = formatMeasurement(values.sqrt2Minus1, unit);
-        document.getElementById("smallVertical").textContent = formatMeasurement(values.twoSqrt2Minus1, unit);
+        if (shape === "T_shape") {
+            document.getElementById("topLeft").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("topRight").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("leftA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("rightA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("bottomA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("leftDiagonal").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("middleDiagonal").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("rightDiagonal").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("redLineLeft").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("redLineRight").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("longDiagonal").textContent = formatMeasurement(values.twoSqrt2a, unit);
+            document.getElementById("longVertical").textContent = formatMeasurement(values.twoSqrt2a, unit);
+            document.getElementById("smallHorizontal").textContent = formatMeasurement(values.sqrt2Minus1, unit);
+            document.getElementById("smallVertical").textContent = formatMeasurement(values.twoSqrt2Minus1, unit);
+        } else {
+            document.getElementById("s1TopA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("s1BottomA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("s1TopRightA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("s1MiddleRightA").textContent = formatMeasurement(values.a, unit);
+            document.getElementById("s1LeftSqrt2a").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("s1TopDiagSqrt2a").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("s1LeftMinus1a").textContent = formatMeasurement(values.sqrt2Minus1, unit);
+            document.getElementById("s1MiddleLeftSqrt2a").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("s1BottomDiagSqrt2a").textContent = formatMeasurement(values.sqrt2a, unit);
+            document.getElementById("s1Right2Sqrt2a").textContent = formatMeasurement(values.twoSqrt2a, unit);
+            document.getElementById("s1Left2Sqrt2a").textContent = formatMeasurement(values.twoSqrt2a, unit);
+            document.getElementById("s1Right2Sqrt2minus1a").textContent = formatMeasurement(values.twoSqrt2Minus1, unit);
+        }
 
         const resultsContainer = document.getElementById("resultsContainer");
         resultsContainer.innerHTML = `
@@ -455,7 +528,7 @@
                 <div class="result-value">${formatMeasurement(values.sqrt2Minus1, unit)}</div>
             </div>
             <div class="result-item">
-                <div class="formula">2(√2 − 1)a</div>
+                <div class="formula">(2√2 − 1)a</div>
                 <div class="result-value">${formatMeasurement(values.twoSqrt2Minus1, unit)}</div>
             </div>
         `;
@@ -464,13 +537,15 @@
     function printResult() {
         const a = parseFloat(document.getElementById("aValue").value);
         if (isNaN(a) || a <= 0) {
-            alert("أدخل قيمة a أولاً");
+            calculate();
             return;
         }
         window.print();
     }
 
-    calculate();
+    window.onload = function() {
+        calculate();
+    };
 </script>
 
 </body>
